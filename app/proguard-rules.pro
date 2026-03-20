@@ -1,0 +1,9 @@
+-keep class com.shiptrack.Task { *; }
+-keep class com.shiptrack.Zone { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+-dontwarn sun.misc.**
+-keep class com.google.gson.** { *; }
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class * extends com.bumptech.glide.module.AppGlideModule { *; }
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** { *; }
