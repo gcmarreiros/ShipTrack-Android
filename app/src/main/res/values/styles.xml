@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ToolbarChip" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:paddingStart">11dp</item>
+        <item name="android:paddingEnd">11dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="strokeColor">@color/border</item>
+        <item name="android:backgroundTint">@color/card</item>
+        <item name="rippleColor">@color/amber</item>
+        <item name="cornerRadius">6dp</item>
+    </style>
+    <style name="FieldLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/green_sub</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+    <style name="QsButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="rippleColor">@color/amber</item>
+    </style>
+</resources>
