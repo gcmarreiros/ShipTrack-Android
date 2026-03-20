@@ -9,13 +9,13 @@
                 <TextView android:id="@+id/tvPriority" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="High" android:textSize="11sp" android:fontFamily="monospace" android:paddingStart="7dp" android:paddingEnd="7dp" android:paddingTop="3dp" android:paddingBottom="3dp"/>
             </LinearLayout>
             <TextView android:id="@+id/tvTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Task title" android:textSize="17sp" android:textStyle="bold" android:textColor="#ffffff" android:layout_marginBottom="5dp"/>
-            <TextView android:id="@+id/tvMeta" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Equipment · Zone-A1" android:textSize="12sp" android:fontFamily="monospace" android:textColor="@color/silver_l"/>
+            <TextView android:id="@+id/tvMeta" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Equipment  Zone-A1" android:textSize="12sp" android:fontFamily="monospace" android:textColor="@color/silver_l"/>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="36dp" android:orientation="horizontal" android:layout_marginStart="3dp">
-            <Button android:id="@+id/btnOpen" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="🔵 OPEN" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
-            <Button android:id="@+id/btnInProgress" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="🔨 IN PROG" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
-            <Button android:id="@+id/btnDone" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="✅ DONE" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
-            <Button android:id="@+id/btnHoldOn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="🚫 HOLD" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
+            <Button android:id="@+id/btnOpen" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text=" OPEN" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
+            <Button android:id="@+id/btnInProgress" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text=" IN PROG" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
+            <Button android:id="@+id/btnDone" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text=" DONE" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
+            <Button android:id="@+id/btnHoldOn" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text=" HOLD" android:textSize="9sp" android:fontFamily="monospace" style="@style/QsButton"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
