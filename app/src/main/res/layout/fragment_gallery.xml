@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/navy" android:padding="14dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Photo Gallery" android:textSize="26sp" android:textStyle="bold" android:textColor="@color/white" android:layout_marginBottom="4dp"/>
+    <TextView android:id="@+id/tvPhotoCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 photos" android:textSize="13sp" android:textColor="@color/muted" android:layout_marginBottom="14dp"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPhotos" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <LinearLayout android:id="@+id/emptyState" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:padding="60dp" android:visibility="gone">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ðŸ–¼¢ android:textSize="48sp" android:alpha="0.4" android:layout_marginBottom="12dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No photos yet" android:textSize="20sp" android:textColor="@color/silver"/>
+    </LinearLayout>
+</LinearLayout>
