@@ -37,8 +37,8 @@ class TaskAdapter(
         val sdf = SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault())
         b.tvTimestamp.text = if (ts > 0) sdf.format(Date(ts)) else ""
         val zones = if (task.zones.isNotEmpty()) task.zones else listOf(task.zone)
-        val zl = when { zones.isEmpty() || zones.all { it.isBlank() } -> "—"; zones.size == 1 -> zones[0]; else -> "${zones[0]} +${zones.size - 1}" }
-        b.tvMeta.text = "${task.type} · $zl${if(task.photos.isNotEmpty())" · 📷 ${task.photos.size}"else""}"
+        val zl = when { zones.isEmpty() || zones.all { it.isBlank() } -> ""; zones.size == 1 -> zones[0]; else -> "${zones[0]} +${zones.size - 1}" }
+        b.tvMeta.text = "${task.type}  $zl${if(task.photos.isNotEmpty())"   ${task.photos.size}"else""}"
         val bc = when (task.priority) { "Critical" -> 0xFFE05020.toInt(); "High" -> 0xFFE63946.toInt(); "Medium" -> 0xFF00BFFF.toInt(); "Low" -> 0xFF2EC4B6.toInt(); else -> android.graphics.Color.TRANSPARENT }
         b.priorityBar.setBackgroundColor(bc)
         val (pb, pf) = when (task.priority) { "Critical" -> Pair(0x33E05020, 0xFFE07050.toInt()); "High" -> Pair(0x26C0401A, 0xFFD06040.toInt()); "Medium" -> Pair(0x1AE8A000, 0xFFC09020.toInt()); else -> Pair(0x1A2A7A6A, 0xFF5AAA90.toInt()) }
