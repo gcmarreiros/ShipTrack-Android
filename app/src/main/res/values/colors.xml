@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navy">#29343b</color>
+    <color name="navy_mid">#22405a</color>
+    <color name="navy_dark">#1c272d</color>
+    <color name="amber">#00bfff</color>
+    <color name="amber_l">#33ccff</color>
+    <color name="rust">#e63946</color>
+    <color name="teal">#2ec4b6</color>
+    <color name="teal_l">#3dddd0</color>
+    <color name="steel">#2d3748</color>
+    <color name="steel_l">#4a5568</color>
+    <color name="white">#f0faff</color>
+    <color name="silver">#a8ccd8</color>
+    <color name="silver_l">#c8dfe8</color>
+    <color name="muted">#6a8a9a</color>
+    <color name="card">#2a4d60</color>
+    <color name="input">#1f3b4d</color>
+    <color name="border">#2600bfff</color>
+    <color name="prio_critical">#e05020</color>
+    <color name="prio_high">#e63946</color>
+    <color name="prio_medium">#00bfff</color>
+    <color name="prio_low">#2ec4b6</color>
+    <color name="status_open">#d4a030</color>
+    <color name="status_inprog">#7ab0e0</color>
+    <color name="status_done">#3dddd0</color>
+    <color name="status_hold">#ff6b77</color>
+    <color name="green_sub">#d3fbd8</color>
+</resources>
