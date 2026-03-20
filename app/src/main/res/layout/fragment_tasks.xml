@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/navy" android:padding="14dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="All Tasks" android:textSize="26sp" android:textStyle="bold" android:textColor="@color/white" android:layout_marginBottom="4dp"/>
+    <TextView android:id="@+id/tvTaskCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 tasks" android:textSize="13sp" android:textColor="@color/muted" android:fontFamily="monospace" android:layout_marginBottom="12dp"/>
+    <EditText android:id="@+id/etSearch" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:hint="Search tasks..." android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="16sp" android:inputType="text" android:layout_marginBottom="10dp"/>
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none" android:layout_marginBottom="10dp">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <Button android:id="@+id/btnFilterCat" android:layout_width="wrap_content" android:layout_height="36dp" android:text="⊞ Category" style="@style/ToolbarChip" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/btnFilterPrio" android:layout_width="wrap_content" android:layout_height="36dp" android:text="◈ Priority" style="@style/ToolbarChip" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/btnSort" android:layout_width="wrap_content" android:layout_height="36dp" android:text="↕ Sort" style="@style/ToolbarChip" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/btnToggleDone" android:layout_width="wrap_content" android:layout_height="36dp" android:text="● SHOW DONE" style="@style/ToolbarChip"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvTasks" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+    <LinearLayout android:id="@+id/emptyState" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:padding="60dp" android:visibility="gone">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="◌" android:textSize="48sp" android:alpha="0.4" android:textColor="@color/muted" android:layout_marginBottom="12dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No tasks found" android:textSize="20sp" android:textColor="@color/silver" android:layout_marginBottom="6dp"/>
+    </LinearLayout>
+</LinearLayout>
