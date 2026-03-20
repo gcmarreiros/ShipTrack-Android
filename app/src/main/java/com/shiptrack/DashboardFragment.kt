@@ -27,11 +27,11 @@ class DashboardFragment : Fragment() {
             updateStats(tasks)
             recentAdapter.submitList(tasks.sortedByDescending { it.created }.take(5))
             binding.btnViewAll.visibility = if (tasks.size > 5) View.VISIBLE else View.GONE
-            binding.btnViewAll.text = "View all ${tasks.size} tasks →"
+            binding.btnViewAll.text = "View all ${tasks.size} tasks "
         }
         binding.btnViewAll.setOnClickListener { (activity as? MainActivity)?.binding?.bottomNav?.selectedItemId = R.id.nav_tasks }
-        binding.btnTheme.setOnClickListener { val s = vm.settings; s.theme = if (s.theme == "bluegrey") "light" else "bluegrey"; binding.btnTheme.text = if (s.theme == "bluegrey") "🌙" else "☀️" }
-        binding.btnTheme.text = if (vm.settings.theme == "bluegrey") "🌙" else "☀️"
+        binding.btnTheme.setOnClickListener { val s = vm.settings; s.theme = if (s.theme == "bluegrey") "light" else "bluegrey"; binding.btnTheme.text = if (s.theme == "bluegrey") "" else "" }
+        binding.btnTheme.text = if (vm.settings.theme == "bluegrey") "" else ""
     }
     private fun updateStats(tasks: List<Task>) {
         val total=tasks.size; val open=tasks.count{it.status=="Open"}; val inProg=tasks.count{it.status=="In Progress"}; val done=tasks.count{it.status=="Done"}; val hold=tasks.count{it.status=="Hold On"}; val crit=tasks.count{it.priority=="Critical"}; val photos=tasks.count{it.photos.isNotEmpty()}
