@@ -4,7 +4,7 @@
     <TextView android:id="@+id/tvPhotoCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 photos" android:textSize="13sp" android:textColor="@color/muted" android:layout_marginBottom="14dp"/>
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvPhotos" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
     <LinearLayout android:id="@+id/emptyState" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:padding="60dp" android:visibility="gone">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ðŸ–¼¢ android:textSize="48sp" android:alpha="0.4" android:layout_marginBottom="12dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" android:textSize="48sp" android:alpha="0.4" android:layout_marginBottom="12dp"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No photos yet" android:textSize="20sp" android:textColor="@color/silver"/>
     </LinearLayout>
 </LinearLayout>
