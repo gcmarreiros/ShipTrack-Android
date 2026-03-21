@@ -63,7 +63,7 @@ class TaskDetailActivity : AppCompatActivity() {
         binding.tvDetailRef.text = task.ref.ifBlank { "\u2014" }
         binding.tvDetailDue.text = task.due.ifBlank { "\u2014" }
 
-        if (task.nhotes.isNotBlank()) {
+        if (task.notes.isNotBlank()) {
             binding.tvNotesSection.visibility = View.VISIBLE
             binding.tvDetailNotes.visibility = View.VISIBLE
             binding.tvDetailNotes.text = task.notes
