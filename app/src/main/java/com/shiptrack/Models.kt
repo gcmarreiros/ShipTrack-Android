@@ -17,7 +17,7 @@ object DefaultData {
         Zone("ZONE-E2", "Pipe Workshop", "", "Pipe fitting")
     )
     val CATEGORIES = listOf("Pipeline","Equipment","Foundation","Structural","Electrical","Other")
-    val SEED_TASKS@ = listOf(
+    val SEED_TASKS = listOf(
         Task("TASK 001","Inspect P-203 flange","Pipeline","ZONE-C1",listOf("ZONE-C1"),"Critical","Open","2026-03-18","P-203","LOTO required.",emptyList(),System.currentTimeMillis()-86400000L*2),
         Task("TASK 002","Replace HVAC brackets","Structural","ZONE-B1",listOf("ZONE-B1"),"High","In Progress","2026-03-20","HVAC-B1","Fabricate replacements.",emptyList(),System.currentTimeMillis()-86400000L*5)
     )
