@@ -70,7 +70,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
 class DetailPhotoAdapter(private val photos: List<String>, private val onClick: (String) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<DetailPhotoAdapter.VI>() {
     inner class VH(view: android.view.View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) { val img: android.widget.ImageView = view.findViewById(R.id.ivPhoto) }
-    override fun onCreateViewHolder(parent: android.view.ViewGroup, vT: Int): VH s{ val v = android.view.LayoutInflater.from(parent.context).inflate(R.layout.item_photo_preview, parent, false); return VH(v) }
+    override fun onCreateViewHolder(parent: android.view.ViewGroup, vT: Int): VH { val v = android.view.LayoutInflater.from(parent.context).inflate(R.layout.item_photo_preview, parent, false); return VH(v) }
     override fun onBindViewHolder(h: VH, pos: Int) { Glide.with(h.img.context).load(photos[pos]).centerCrop().into(h.img); h.itemView.setOnClickListener { onClick(photos[pos]) } }
     override fun getItemCount() = photos.size
 }
