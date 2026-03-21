@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="@color/navy_mid">
 
-    <!-- HEADER -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:background="@color/navy_dark" android:orientation="vertical"
         android:paddingStart="18dp" android:paddingEnd="8dp"
@@ -14,35 +13,22 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                 <TextView android:id="@+id/tvDetailTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Task Title" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/white"/>
-                <TextView android:id="@+id/tvDetailSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TASK 001 - Equipment" android:textSize="11sp" android:textColor="@color/green_sub" android:fontFamily="monospace" android:layout_marginTop="3dp"/>
+                <TextView android:id="@+id/tvDetailSub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TASK 001 &#xB7; Equipment" android:textSize="11sp" android:textColor="@color/green_sub" android:fontFamily="monospace" android:layout_marginTop="3dp"/>
             </LinearLayout>
-            <Button android:id="@+id/btnDetailClose" android:layout_width="44dp" android:layout_height="44dp" android:text="X" android:textSize="24sp" android:textColor="@color/muted" android:padding="0dp" style="@style/Widget.MaterialComponents.Button.TextButton"/>
+            <Button android:id="@+id/btnDetailClose" android:layout_width="44dp" android:layout_height="44dp" android:text="&#xD7;" android:textSize="24sp" android:textColor="@color/muted" android:padding="0dp" style="@style/Widget.MaterialComponents.Button.TextButton"/>
         </LinearLayout>
     </LinearLayout>
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PROGRESS / STATUS" android:textSize="11sp" android:fontFamily="monospace" android:textColor="@color/green_sub" android:letterSpacing="0.1" android:layout_marginBottom="8dp"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="end" android:layout_marginBottom="8dp">
-                <TextView android:id="@+id/tvPriorityBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium v" android:textSize="12sp" android:fontFamily="monospace" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:clickable="true" android:focusable="true"/>
+                <TextView android:id="@+id/tvPriorityBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medium &#x25BE;" android:textSize="12sp" android:fontFamily="monospace" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:clickable="true" android:focusable="true"/>
             </LinearLayout>
             <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal" android:layout_marginBottom="16dp">
-                <Button android:id="@+id/btnStatusOpen" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="[O] OPEN" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
-                <Button android:id="@+id/btnStatusInProg" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="[>] IN PROG" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
-                <Button android:id="@+id/btnStatusDone" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="[v] DONE" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
-                <Button android:id="@+id/btnStatusHold" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="[X] HOLD ON" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="12dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ZONE" android:textSize="11sp" android:fontFamily="monospace" android:textColor="@color/muted" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvDetailZone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textColor="@color/silver_l"/>
-                </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="REF / ASSET" android:textSize="11sp" android:fontFamily="monospace" android:textColor="@color/muted" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvDetailRef" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textColor="@color/silver_l"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DUE DATE" android:textSize="11sp" android:fontFamily="monospace" android:textColor="@color/muted" android:layout_marginBottom="4dp"/>
-                <TextView android:id="@+id/tvDetailDue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textColor="@color/silver_l" android:fontFamily="monospace"/>
+                <Button android:id="@+id/btnStatusOpen" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="&#x1F535; OPEN" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
+                <Button android:id="@+id/btnStatusInProg" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="&#x1F528; IN PROG" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
+                <Button android:id="@+id/btnStatusDone" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="&#x2705; DONE" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted" android:layout_marginEnd="4dp"/>
+                <Button android:id="@+id/btnStatusHold" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="&#x1F6AB; HOLD ON" android:textSize="9sp" android:fontFamily="monospace" android:background="@drawable/status_btn_bg" android:textColor="@color/muted"/>
             </LinearLayout>
             <TextView android:id="@+id/tvNotesSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="NOTES &amp; ACTION" android:textSize="11sp" android:fontFamily="monospace" android:textColor="@color/green_sub" android:letterSpacing="0.1" android:layout_marginBottom="8dp" android:visibility="gone"/>
             <TextView android:id="@+id/tvDetailNotes" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="15sp" android:textColor="@color/silver_l" android:lineSpacingExtra="5dp" android:layout_marginBottom="16dp" android:visibility="gone"/>
@@ -52,8 +38,8 @@
         </LinearLayout>
     </ScrollView>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/navy_dark" android:orientation="horizontal" android:padding="12dp" android:elevation="4dp">
-        <Button android:id="@+id/btnAddPhoto" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="[cam] Photo" android:textSize="13sp" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:textColor="@color/silver_l" app:strokeColor="@color/border" android:layout_marginEnd="8dp"/>
-        <Button android:id="@+id/btnDetailEdit" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="[edit] Edit" android:textSize="13sp" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:textColor="@color/silver_l" app:strokeColor="@color/border" android:layout_marginEnd="8dp"/>
-        <Button android:id="@+id/btnDetailShare" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="[share] Share" android:textSize="13sp" android:backgroundTint="@color/amber" android:textColor="@color/navy_dark"/>
+        <Button android:id="@+id/btnAddPhoto" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="&#x1F4F7; Photo" android:textSize="13sp" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:textColor="@color/silver_l" app:strokeColor="@color/border" android:layout_marginEnd="8dp"/>
+        <Button android:id="@+id/btnDetailEdit" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="&#x270E; Edit" android:textSize="13sp" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:textColor="@color/silver_l" app:strokeColor="@color/border" android:layout_marginEnd="8dp"/>
+        <Button android:id="@+id/btnDetailShare" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="&#x2934; Share" android:textSize="13sp" android:backgroundTint="@color/amber" android:textColor="@color/navy_dark"/>
     </LinearLayout>
 </LinearLayout>
