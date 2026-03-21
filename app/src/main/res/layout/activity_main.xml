@@ -5,7 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/navy">
-    <FrameLayout android:id="@+id/fragment_container" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="64dp"/>
-    <com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/bottom_nav" android:layout_width="match_parent" android:layout_height="64dp" android:layout_gravity="bottom" android:background="@color/navy_dark" app:menu="@menu/bottom_nav_menu" app:itemIconTint="@color/bottom_nav_color" app:itemTextColor="@color/bottom_nav_color" app:labelVisibilityMode="labeled"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/fab_add" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="80dp" android:contentDescription="Add Task" app:srcCompat="@drawable/ic_add" app:backgroundTint="@color/amber" app:tint="@color/navy_dark"/>
+
+    <!-- TOP HEADER -->
+    <LinearLayout
+        android:id="@+id/appHeader"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/navy_dark"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:elevation="4dp">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="32dp" android:layout_height="32dp"
+                android:background="@drawable/logo_hex_bg"
+                android:gravity="center" android:text="&#x2693;"
+                android:textSize="14sp" android:textColor="@color/navy_dark"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="vertical" android:layout_marginStart="10dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="ShipTrack" android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/white"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="YARD OPS" android:textSize="9sp" android:textColor="@color/green_sub"
+                    android:letterSpacing="0.12" android:fontFamily="monospace"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="&#x25CF; OFFLINE" android:textSize="11sp"
+            android:textColor="@color/teal_l" android:fontFamily="monospace"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="64dp"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:background="@color/navy_dark"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:elevation="8dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="80dp"
+        android:contentDescription="Add Task"
+        app:srcCompat="@drawable/ic_add"
+        app:backgroundTint="@color/amber"
+        app:tint="@color/navy_dark"
+        app:elevation="8dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
