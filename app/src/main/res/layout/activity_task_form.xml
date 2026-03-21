@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/navy_mid">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/navy_mid">
     <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:background="@color/navy_dark" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="18dp" android:paddingEnd="8dp" android:elevation="4dp">
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
             <TextView android:id="@+id/tvFormTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Register Task" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/white"/>
@@ -12,11 +17,31 @@
             <TextView style="@style/FieldLabel" android:text="TASK TITLE *"/>
             <EditText android:id="@+id/etTitle" android:layout_width="match_parent" android:layout_height="52dp" android:background="@drawable/input_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:hint="Describe the task..." android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="16sp" android:inputType="textMultiLine" android:layout_marginBottom="14dp"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="14dp">
-                <Spinner android:id="@+id/spinnerType" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:dropDownWidth="match_parent" android:layout_marginEnd="8dp"/>
-                <Spinner android:id="@+id/spinnerPriority" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                    <TextView style="@style/FieldLabel" android:text="CATEGORY"/>
+                    <Spinner android:id="@+id/spinnerType" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:dropDownWidth="match_parent"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/FieldLabel" android:text="PRIORITY"/>
+                    <Spinner android:id="@+id/spinnerPriority" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp"/>
+                </LinearLayout>
             </LinearLayout>
+            <TextView style="@style/FieldLabel" android:text="ZONE(S)"/>
             <Button android:id="@+id/btnPickZone" android:layout_width="match_parent" android:layout_height="48dp" android:text="Tap to select zones..." android:textColor="@color/muted" android:textSize="14sp" android:background="@drawable/input_bg" android:gravity="start|center_vertical" android:paddingStart="14dp" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_marginBottom="14dp"/>
-            <EditText android:id="@+id/etNotes" android:layout_width="match_parent" android:layout_height="100dp" android:background="@drawable/input_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="10dp" android:hint="Safety notes, instructions..." android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="15sp" android:inputType="textMultiLine" android:gravity="top" android:layout_marginBottom="14dp"/>
+            <TextView android:id="@+id/tvSelectedZones" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13sp" android:textColor="@color/teal_l" android:fontFamily="monospace" android:layout_marginTop="-10dp" android:layout_marginBottom="14dp" android:visibility="gone"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="14dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                    <TextView style="@style/FieldLabel" android:text="DUE DATE"/>
+                    <EditText android:id="@+id/etDue" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:hint="YYYY-MM-DD" android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="14sp" android:inputType="date" android:fontFamily="monospace"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/FieldLabel" android:text="REF / ASSET ID"/>
+                    <EditText android:id="@+id/etRef" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/input_bg" android:paddingStart="12dp" android:paddingEnd="12dp" android:hint="e.g. P-203" android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="14sp" android:fontFamily="monospace"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView style="@style/FieldLabel" android:text="NOTES / ACTION REQUIRED"/>
+            <EditText android:id="@+id/evNotes" android:layout_width="match_parent" android:layout_height="100dp" android:background="@drawable/input_bg" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="10dp" android:hint="Safety notes, instructions..." android:textColor="@color/white" android:textColorHint="@color/muted" android:textSize="15sp" android:inputType="textMultiLine" android:gravity="top" android:layout_marginBottom="14dp"/>
+            <TextView style="@style/FieldLabel" android:text="PHOTOS"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="6dp">
                 <Button android:id="@+id/btnCamera" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="[cam] Camera" android:textSize="13sp" android:backgroundTint="@color/card" android:textColor="@color/silver_l" android:layout_marginEnd="8dp"/>
                 <Button android:id="@+id/btnGallery" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:text="[img] Gallery" android:textSize="13sp" android:backgroundTint="@color/card" android:textColor="@color/silver_l"/>
