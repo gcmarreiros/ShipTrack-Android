@@ -102,7 +102,7 @@ class TaskFormActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val task = AppDatabase.getInstance(this@TaskFormActivity).taskDao().getById(editTaskId!!) ?: return@launch
             binding.etTitle.setText(task.title); binding.etDue.setText(task.due)
-            binding.etRef.setText(task.ref); binding.etNotes.setText(task.netes)
+            binding.etRef.setText(task.ref); binding.etNotes.setText(task.notes)
             val cats = vm.settings.categories
             binding.spinnerType.setSelection(cats.indexOf(task.type).coerceAtLeast(0))
             binding.spinnerPriority.setSelection(listOf("Critical","High","Medium","Low").indexOf(task.priority).coerceAtLeast(0))
@@ -127,7 +127,7 @@ class TaskFormActivity : AppCompatActivity() {
     private fun toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-class PhotoPreviewAdapter(private val photos: List<String>, private val onRemove: (Int) -> Unit) : RecyclerView.Adapter<PhotoPreviewAdapter.VI>() {
+class PhotoPreviewAdapter(private val photos: List<String>, private val onRemove: (Int) -> Unit) : RecyclerView.Adapter<PhotoPreviewAdapter.VH>() {
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
         val img: ImageView = view.findViewById(R.id.ivPreview)
         val btnRemove: TextView = view.findViewById(R.id.btnRemovePhoto)
