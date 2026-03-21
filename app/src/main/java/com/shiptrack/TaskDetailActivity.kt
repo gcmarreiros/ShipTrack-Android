@@ -177,7 +177,7 @@ class TaskDetailActivity : AppCompatActivity() {
             if (zoneNames.isNotEmpty()) appendLine("Zone: ${zoneNames.joinToString(", ")}")
             if (task.due.isNotBlank()) appendLine("Due: ${task.due}")
             if (task.ref.isNotBlank()) appendLine("Ref: ${task.ref}")
-            if (task.notes.isNotBlank()) appendLine("Notes: ${task.nhotes}")
+            if (task.notes.isNotBlank()) appendLine("Notes: ${task.notes}")
         }
         startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
