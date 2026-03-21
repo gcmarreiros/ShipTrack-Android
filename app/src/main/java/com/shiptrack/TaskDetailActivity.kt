@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -41,6 +42,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
         binding.btnDetailClose.setOnClickListener { finish() }
 
+        // Observe task changes live (status updates reflect immediately)
         vm.allTasks.observe(this) { tasks ->
             tasks.find { it.id == taskId }?.let { bindTask(it) }
         }
@@ -54,6 +56,7 @@ class TaskDetailActivity : AppCompatActivity() {
         val tsStr = if (ts > 0) " \u00B7 ${sdf.format(Date(ts))}" else ""
         binding.tvDetailSub.text = "${task.id} \u00B7 ${task.type}$tsStr"
 
+        // Zone label
         val zones = vm.settings.zones
         val taskZones = if (task.zones.isNotEmpty()) task.zones else listOf(task.zone)
         val zoneNames = taskZones.mapNotNull { code -> zones.find { it.code == code }?.name ?: code }
@@ -63,6 +66,7 @@ class TaskDetailActivity : AppCompatActivity() {
         binding.tvDetailRef.text = task.ref.ifBlank { "\u2014" }
         binding.tvDetailDue.text = task.due.ifBlank { "\u2014" }
 
+        // Notes
         if (task.notes.isNotBlank()) {
             binding.tvNotesSection.visibility = View.VISIBLE
             binding.tvDetailNotes.visibility = View.VISIBLE
@@ -72,6 +76,7 @@ class TaskDetailActivity : AppCompatActivity() {
             binding.tvDetailNotes.visibility = View.GONE
         }
 
+        // Priority badge
         val (prioBg, prioFg) = when (task.priority) {
             "Critical" -> Pair(0x33E05020, 0xFFE07050.toInt())
             "High"     -> Pair(0x26C0401A, 0xFFD06040.toInt())
@@ -84,6 +89,7 @@ class TaskDetailActivity : AppCompatActivity() {
         binding.tvPriorityBadge.text = "${task.priority} \u25BE"
         binding.tvPriorityBadge.setOnClickListener { showPriorityPicker(task) }
 
+        // Status buttons - highlight active
         highlightStatus(task.status)
         val statusHandler = { status: String ->
             if (task.status != status) {
@@ -96,6 +102,7 @@ class TaskDetailActivity : AppCompatActivity() {
         binding.btnStatusDone.setOnClickListener   { statusHandler("Done") }
         binding.btnStatusHold.setOnClickListener   { statusHandler("Hold On") }
 
+        // Photos
         binding.tvPhotosLabel.text = "PHOTOS (${task.photos.size})"
         if (task.photos.isEmpty()) {
             binding.rvDetailPhotos.visibility = View.GONE
@@ -103,46 +110,119 @@ class TaskDetailActivity : AppCompatActivity() {
         } else {
             binding.tvNoPhotos.visibility = View.GONE
             binding.rvDetailPhotos.visibility = View.VISIBLE
-            val adapter = DetailPhotoAdapter(task.photos) { src -> showPhotoViewer(src, task.title) }
+            val adapter = DetailPhotoAdapter(task.photos) { src ->
+                showPhotoViewer(src, task.title)
+            }
             binding.rvDetailPhotos.layoutManager = GridLayoutManager(this, 3)
             binding.rvDetailPhotos.adapter = adapter
         }
 
-        binding.btnDetailEdit.setOnClickListener { TaskFormActivity.start(this, task.id) }
-        binding.btnAddPhoto.setOnClickListener { TaskFormActivity.start(this, task.id); toast("Open edit to add photos") }
+        // Action buttons
+        binding.btnDetailEdit.setOnClickListener {
+            TaskFormActivity.start(this, task.id)
+        }
+        binding.btnAddPhoto.setOnClickListener {
+            TaskFormActivity.start(this, task.id)
+            toast("Open edit to add photos")
+        }
         binding.btnDetailShare.setOnClickListener { shareTask(task) }
     }
 
     private fun highlightStatus(status: String) {
-        val btns = mapOf("Open" to binding.btnStatusOpen, "In Progress" to binding.btnStatusInProg, "Done" to binding.btnStatusDone, "Hold On" to binding.btnStatusHold)
-        val activeBg = mapOf("Open" to Pair(0x26FF6B3D, 0xFFFF8C63.toInt()), "In Progress" to Pair(0x2E388BFD, 0xFF58A6FF.toInt()), "Done" to Pair(0x262EC4B6, 0xFF3DDDD0.toInt()), "Hold On" to Pair(0x26E63946, 0xFFFF6B77.toInt()))
-        btns.forEach { (s, btn) -> if (s == status) { val (bg, fg) = activeBg[s]!!; btn.setBackgroundColor(bg); btn.setTextColor(fg) } else { btn.setBackgroundResource(R.drawable.status_btn_bg); btn.setTextColor(getColor(R.color.muted)) } }
+        val btns = mapOf(
+            "Open"        to binding.btnStatusOpen,
+            "In Progress" to binding.btnStatusInProg,
+            "Done"        to binding.btnStatusDone,
+            "Hold On"     to binding.btnStatusHold
+        )
+        val activeBg = mapOf(
+            "Open"        to Pair(0x26FF6B3D, 0xFFFF8C63.toInt()),
+            "In Progress" to Pair(0x2E388BFD, 0xFF58A6FF.toInt()),
+            "Done"        to Pair(0x262EC4B6, 0xFF3DDDD0.toInt()),
+            "Hold On"     to Pair(0x26E63946, 0xFFFF6B77.toInt())
+        )
+        btns.forEach { (s, btn) ->
+            if (s == status) {
+                val (bg, fg) = activeBg[s]!!
+                btn.setBackgroundColor(bg)
+                btn.setTextColor(fg)
+            } else {
+                btn.setBackgroundResource(R.drawable.status_btn_bg)
+                btn.setTextColor(getColor(R.color.muted))
+            }
+        }
     }
 
     private fun showPriorityPicker(task: Task) {
         val prios = arrayOf("Critical", "High", "Medium", "Low")
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Change Priority").setItems(prios) { _, i -> vm.updatePriority(task.id, prios[i]); toast("Priority \u2192 ${prios[i]}") }.show()
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Change Priority")
+            .setItems(prios) { _, i ->
+                vm.updatePriority(task.id, prios[i])
+                toast("Priority \u2192 ${prios[i]}")
+            }
+            .show()
     }
 
     private fun shareTask(task: Task) {
-        val zones = vm.settings.zones; val taskZones = if (task.zones.isNotEmpty()) task.zones else listOf(task.zone)
+        val zones = vm.settings.zones
+        val taskZones = if (task.zones.isNotEmpty()) task.zones else listOf(task.zone)
         val zoneNames = taskZones.mapNotNull { code -> zones.find { it.code == code }?.name }
-        val text = buildString { appendLine("\uD83D\uDCCB ${task.id}"); appendLine("Title: ${task.title}"); appendLine("Status: ${task.status}"); appendLine("Priority: ${task.priority}"); appendLine("Category: ${task.type}"); if (zoneNames.isNotEmpty()) appendLine("Zone: ${zoneNames.joinToString(", ")}"); if (task.due.isNotBlank()) appendLine("Due: ${task.due}"); if (task.ref.isNotBlank()) appendLine("Ref: ${task.ref}"); if (task.notes.isNotBlank()) appendLine("Notes: ${task.notes}") }
-        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }, "Share Task"))
+        val text = buildString {
+            appendLine("\uD83D\uDCCB ${task.id}")
+            appendLine("Title: ${task.title}")
+            appendLine("Status: ${task.status}")
+            appendLine("Priority: ${task.priority}")
+            appendLine("Category: ${task.type}")
+            if (zoneNames.isNotEmpty()) appendLine("Zone: ${zoneNames.joinToString(", ")}")
+            if (task.due.isNotBlank()) appendLine("Due: ${task.due}")
+            if (task.ref.isNotBlank()) appendLine("Ref: ${task.ref}")
+            if (task.notes.isNotBlank()) appendLine("Notes: ${task.nhotes}")
+        }
+        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }, "Share Task"))
     }
 
     private fun showPhotoViewer(src: String, caption: String) {
-        val dialog = android.app.Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen); dialog.setContentView(R.layout.dialog_photo_viewer)
-        val iv = dialog.findViewById<android.widget.ImageView>(R.id.ivPhoto); val tv = dialog.findViewById<android.widget.TextView>(R.id.tvCaption); val btnClose = dialog.findViewById<android.widget.Button>(R.id.btnClose)
-        Glide.with(this).load(src).into(iv); tv.text = caption; iv.setOnClickListener { dialog.dismiss() }; btnClose.setOnClickListener { dialog.dismiss() }; dialog.show()
+        val dialog = android.app.Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setContentView(R.layout.dialog_photo_viewer)
+        val iv = dialog.findViewById<android.widget.ImageView>(R.id.ivPhoto)
+        val tv = dialog.findViewById<android.widget.TextView>(R.id.tvCaption)
+        val btnClose = dialog.findViewById<android.widget.Button>(R.id.btnClose)
+        Glide.with(this).load(src).into(iv)
+        tv.text = caption
+        iv.setOnClickListener { dialog.dismiss() }
+        btnClose.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     private fun toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-class DetailPhotoAdapter(private val photos: List<String>, private val onClick: (String) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<DetailPhotoAdapter.VH>() {
-    inner class VH(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) { val img: android.widget.ImageView = view.findViewById(R.id.ivPhoto); val taskId: android.widget.TextView = view.findViewById(R.id.tvTaskId) }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH { val v = android.view.LayoutInflater.from(parent.context).inflate(R.layout.item_photo, parent, false); return VH(v) }
-    override fun onBindViewHolder(holder: VH, position: Int) { Glide.with(holder.img.context).load(photos[position]).centerCrop().into(holder.img); holder.taskId.visibility = View.GONE; holder.itemView.setOnClickListener { onClick(photos[position]) } }
+// Small adapter for detail view photos
+class DetailPhotoAdapter(
+    private val photos: List<String>,
+    private val onClick: (String) -> Unit
+) : androidx.recyclerview.widget.RecyclerView.Adapter<DetailPhotoAdapter.VH>() {
+
+    inner class VH(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+        val img: android.widget.ImageView = view.findViewById(R.id.ivPhoto)
+        val taskId: android.widget.TextView = view.findViewById(R.id.tvTaskId)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val v = android.view.LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_photo, parent, false)
+        return VH(v)
+    }
+
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        Glide.with(holder.img.context).load(photos[position]).centerCrop().into(holder.img)
+        holder.taskId.visibility = View.GONE
+        holder.itemView.setOnClickListener { onClick(photos[position]) }
+    }
+
     override fun getItemCount() = photos.size
 }
