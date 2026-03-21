@@ -36,5 +36,5 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     fun updateStatus(id: String, status: String) = viewModelScope.launch { dao.getById(id)?.let { dao.update(it.copy(status = status)) } }
     fun updatePriority(id: String, priority: String) = viewModelScope.launch { dao.getById(id)?.let { dao.update(it.copy(priority = priority)) } }
     suspend fun seedIfEmpty() { if (!settings.seeded && dao.count() == 0) { dao.insertAll(DefaultData.SEED_TASKS); settings.seeded = true } }
-    fun genId(): String { val max = allTasks.value?.mapNotNull { t.id.replace("TASK ","").trim().toIntOrNull() }?.maxOrNull() ?: 0; return "TASK " + (max+1).toString().padStart(3,'0') }
+    fun genId(): String { val max = allTasks.value?.mapNotNull { it.id.replace("TASK ","").trim().toIntOrNull() }?.maxOrNull() ?: 0; return "TASK " + (max+1).toString().padStart(3,'0') }
 }
