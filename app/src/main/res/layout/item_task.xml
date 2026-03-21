@@ -1,86 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:background="@drawable/card_bg"
-    android:layout_marginBottom="8dp"
-    android:padding="14dp"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_marginBottom="10dp">
 
-    <!-- Row 1: ID + status buttons -->
+    <!-- Priority colour bar (left edge) -->
+    <View android:id="@+id/priorityBar"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@color/amber"/>
+
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:layout_marginBottom="6dp">
+        android:orientation="vertical">
 
-        <TextView android:id="@+id/tvTaskId"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TASK-001" android:textSize="11sp"
-            android:textColor="@color/green_sub" android:fontFamily="monospace"/>
+        <LinearLayout android:id="@+id/cardTop"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="13dp"
+            android:clickable="true" android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-        <!-- Status pills -->
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView android:id="@+id/btnOpen"
-                android:layout_width="wrap_content" android:layout_height="28dp"
-                android:text="&#x1F535;" android:textSize="12sp"
-                android:gravity="center" android:paddingStart="6dp" android:paddingEnd="6dp"
-                android:clickable="true" android:focusable="true"
-                android:background="@drawable/status_btn_bg"/>
-            <TextView android:id="@+id/btnInProg"
-                android:layout_width="wrap_content" android:layout_height="28dp"
-                android:text="&#x1F528;" android:textSize="12sp"
-                android:gravity="center" android:paddingStart="6dp" android:paddingEnd="6dp"
-                android:clickable="true" android:focusable="true"
-                android:background="@drawable/status_btn_bg"/>
-            <TextView android:id="@+id/btnDone"
-                android:layout_width="wrap_content" android:layout_height="28dp"
-                android:text="&#x2705;" android:textSize="12sp"
-                android:gravity="center" android:paddingStart="6dp" android:paddingEnd="6dp"
-                android:clickable="true" android:focusable="true"
-                android:background="@drawable/status_btn_bg"/>
-            <TextView android:id="@+id/btnHold"
-                android:layout_width="wrap_content" android:layout_height="28dp"
-                android:text="&#x1F6AB;" android:textSize="12sp"
-                android:gravity="center" android:paddingStart="6dp" android:paddingEnd="6dp"
-                android:clickable="true" android:focusable="true"
-                android:background="@drawable/status_btn_bg"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:layout_marginBottom="3dp">
+
+                <TextView android:id="@+id/tvTaskId"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="TASK 001"
+                    android:textSize="11sp" android:fontFamily="monospace"
+                    android:textColor="#85b1cc" android:letterSpacing="0.05"/>
+
+                <TextView android:id="@+id/tvTimestamp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="10sp" android:fontFamily="monospace"
+                    android:textColor="@color/muted" android:layout_marginEnd="8dp"/>
+
+                <TextView android:id="@+id/tvPriority"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="High" android:textSize="11sp" android:fontFamily="monospace"
+                    android:paddingStart="7dp" android:paddingEnd="7dp"
+                    android:paddingTop="3dp" android:paddingBottom="3dp"/>
+            </LinearLayout>
+
+            <TextView android:id="@+id/tvTitle"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Task title" android:textSize="17sp" android:textStyle="bold"
+                android:textColor="#ffffff" android:layout_marginBottom="5dp"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="#1200bfff" android:paddingStart="10dp" android:paddingEnd="10dp"
+                android:paddingTop="3dp" android:paddingBottom="3dp">
+                <TextView android:id="@+id/tvMeta"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Equipment · Zone-A1"
+                    android:textSize="12sp" android:fontFamily="monospace"
+                    android:textColor="@color/silver_l"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="3dp">
+
+            <Button android:id="@+id/btnOpen"
+                android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="&#x1F535; OPEN"
+                android:textSize="9sp" android:fontFamily="monospace"
+                style="@style/QsButton"/>
+
+            <Button android:id="@+id/btnInProgress"
+                android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="&#x1F528; IN PROG"
+                android:textSize="9sp" android:fontFamily="monospace"
+                style="@style/QsButton"/>
+
+            <Button android:id="@+id/btnDone"
+                android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="&#x2705; DONE"
+                android:textSize="9sp" android:fontFamily="monospace"
+                style="@style/QsButton"/>
+
+            <Button android:id="@+id/btnHoldOn"
+                android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="&#x1F6AB; HOLD"
+                android:textSize="9sp" android:fontFamily="monospace"
+                style="@style/QsButton"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <!-- Row 2: Title -->
-    <TextView android:id="@+id/tvTitle"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Task Title" android:textSize="16sp" android:textStyle="bold"
-        android:textColor="@color/white" android:layout_marginBottom="6dp"/>
-
-    <!-- Row 3: Meta: type + zone -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:layout_marginBottom="4dp">
-        <TextView android:id="@+id/tvType"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Equipment" android:textSize="11sp"
-            android:textColor="@color/muted" android:fontFamily="monospace"
-            android:layout_marginEnd="8dp"/>
-        <TextView android:id="@+id/tvZone"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Zone A" android:textSize="11sp"
-            android:textColor="@color/teal_l" android:fontFamily="monospace"/>
-        <TextView android:id="@+id/tvPriority"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Medium" android:textSize="11sp"
-            android:textColor="@color/muted" android:fontFamily="monospace"/>
-    </LinearLayout>
-
-    <!-- Row 4: due (optional) -->
-    <TextView android:id="@+id/tvDue"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:textSize="11sp" android:textColor="@color/muted"
-        android:fontFamily="monospace" android:visibility="gone"/>
-
 </LinearLayout>
