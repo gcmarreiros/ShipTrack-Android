@@ -38,12 +38,16 @@ class TaskFormActivity : AppCompatActivity() {
     private val pendingPhotos = mutableListOf<String>()
     private var cameraUri: Uri? = null
     private lateinit var photoAdapter: PhotoPreviewAdapter
+    private var selectedZones = mutableListOf<String>()
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success -> if (success) cameraUri?.let { uri -> addPhotoFromUri(uri) } }
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri -> uri?.let { addPhotoFromUri(it) } }
     private val permLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted -> if (granted) launchCamera() else toast("Camera permission denied") }
-    companion object { const val EXTRA_TASK_ID = "task_id"; fun start(ctx: Context, id: String?) { ctx.startActivity(Intent(ctx, TaskFormActivity::class.java).apply { id?.let { putExtra(EXTRA_TASK_ID, it) } }) } }
-    override fun onCreate(saved: Bundle?) {
-        super.onCreate(saved)
+    companion object {
+        const val EXTRA_TASK_ID = "task_id"
+        fun start(context: Context, taskId: String?) { context.startActivity(Intent(context, TaskFormActivity::class.java).apply { taskId?.let { putExtra(EXTRA_TASK_ID, it) } }) }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivityTaskFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
         vm = ViewModelProvider(this)[TaskViewModel::class.java]
@@ -55,23 +59,26 @@ class TaskFormActivity : AppCompatActivity() {
         binding.btnGallery.setOnClickListener { galleryLauncher.launch("image/*") }
         binding.btnPickZone.setOnClickListener { showZonePicker() }
         binding.btnSave.setOnClickListener { saveTask() }
-        if (editTaskId != null) { binding.tvFormTitle.text = "Edit Task"; binding.btnDeleteTask.visibility = View.VISIBLE; binding.btnDeleteTask.setOnClickListener { confirmDelete() }; loadExistingTask() } else { binding.tvFormTitle.text = "Register Task"; binding.tvFormSub.text = "NEW ENTRY" }
+        if (editTaskId != null) { binding.tvFormTitle.text = "Edit Task"; binding.tvFormSub.text = "EDITING $editTaskId"; binding.btnDeleteTask.visibility = View.VISIBLE; binding.btnDeleteTask.setOnClickListener { confirmDelete() }; loadExistingTask() }
     }
     private fun setupSpinners() {
-        binding.spinnerType.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, vm.settings.categories).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
-        binding.spinnerPriority.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Critical", "High", "Medium", "Low")).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+        val cats = vm.settings.categories
+        binding.spinnerType.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cats).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+        binding.spinnerPriority.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Critical","High","Medium","Low")).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
         binding.spinnerPriority.setSelection(2)
     }
-    private var selectedZones = mutableListOf<String>()
     private fun showZonePicker() {
         val zones = vm.settings.zones
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Select Zone(s)").setMultiChoiceItems(zones.map { "${it.name} (${it.code})" }.toTypedArray(), zones.map { selectedZones.contains(it.code) }.toBooleanArray()) { _, i, chk -> val code = zones[i].code; if (chk) { if (!selectedZones.contains(code)) selectedZones.add(code) } else selectedZones.remove(code) }.setPositiveButton("Done") { d, _ -> updateZoneLabel(); d.dismiss() }.setNeutralButton("Clear") { d, _ -> selectedZones.clear(); updateZoneLabel(); d.dismiss() }.show()
+        val names = zones.map { "${it.name} (${it.code})" }.toTypedArray()
+        val checked = zones.map { selectedZones.contains(it.code) }.toBooleanArray()
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Select Zone(s)").setMultiChoiceItems(names, checked) { _, i, isChecked -> val code = zones[i].code; if (isChecked) { if (!selectedZones.contains(code)) selectedZones.add(code) } else selectedZones.remove(code) }.setPositiveButton("Done") { d, _ -> updateZoneLabel(); d.dismiss() }.setNeutralButton("Clear") { d, _ -> selectedZones.clear(); updateZoneLabel(); d.dismiss() }.show()
     }
     private fun updateZoneLabel() {
-        if (selectedZones.isEmpty()) { binding.btnPickZone.text = "Tap to select zones"; binding.tvSelectedZones.visibility = View.GONE } else { binding.btnPickZone.text = "${selectedZones.size} zone(s) selected"; binding.tvSelectedZones.visibility = View.VISIBLE }
+        if (selectedZones.isEmpty()) { binding.btnPickZone.text = "Tap to select zones"; binding.tvSelectedZones.visibility = View.GONE
+        } else { binding.btnPickZone.text = "${selectedZones.size} zone(s) selected"; binding.tvSelectedZones.visibility = View.VISIBLE }
     }
     private fun setupPhotoPreview() {
-        photoAdapter = PhotoPreviewAdapter(pendingPhotos) { i -> pendingPhotos.removeAt(i); photoAdapter.notifyDataSetChanged() }
+        photoAdapter = PhotoPreviewAdapter(pendingPhotos) { index -> pendingPhotos.removeAt(index); photoAdapter.notifyDataSetChanged() }
         binding.rvPhotoPreview.layoutManager = GridLayoutManager(this, 3)
         binding.rvPhotoPreview.adapter = photoAdapter
     }
@@ -81,16 +88,57 @@ class TaskFormActivity : AppCompatActivity() {
         cameraUri = FileProvider.getUriForFile(this, "$packageName.fileprovider", f)
         cameraLauncher.launch(cameraUri)
     }
-    private fun addPhotoFromUri(uri: Uri) { try { val bmp = android.provider.MediaStore.Images.Media.getBitmap(contentResolver, uri); val sc = android.graphics.Bitmap.createScaledBitmap(bmp, minOf(bmp.width, 800), minOf(bmp.height, 800), true); val baos = java.io.ByteArrayOutputStream(); sc.compress(android.graphics.Bitmap.CompressFormat.JPEG,  75, baos); pendingPhotos.add("data:image/jpeg;base64,"+android.util.Base64.encodeToString(baos.toByteArray(),android.util.Base64.NO_WRAP)); photoAdapter.notifyDataSetChanged() } catch (e: Exception) { toast("Error: ${e.message}") } }
-    private fun loadExistingTask() { lifecycleScope.launch { val task = AppDatabase.getInstance(this@TaskFormActivity).taskDao().getById(editTaskId!!) ?: return@launch; binding.etTitle.setText(task.title); binding.etDue.setText(task.due); binding.etRef.setText(task.ref); binding.etNotes.setText(task.notes); selectedZones = (task.zones.ifEmpty { listOf(task.zone) }).toMutableList(); updateZoneLabel(); pendingPhotos.clear(); pendingPhotos.addAll(task.photos); photoAdapter.notifyDataSetChanged() } }
-    private fun saveTask() { val title = binding.etTitle.text?.toString()?.trim() ?: ""; if (title.isBlank()) { toast("Title required"); return }; val id = editTaskId ?: vm.genId(); val now = System.currentTimeMillis(); lifecycleScope.launch { val existing = if (editTaskId != null) AppDatabase.getInstance(this@TaskFormActivity).taskDao().getById(editTaskId!!) else null; val task = Task(id=id,title=title,type=vm.settings.categories.getOrElse(binding.spinnerType.selectedItemPosition){"Other"},zone=selectedZones.firstOrNull()?:"",zones=selectedZones.toList(),priority=listOf("Critical","High","Medium","Low").getOrElse(binding.spinnerPriority.selectedItemPosition){"Medium"},status=existing?.status?:"Open",due=binding.etDue.text?.toString()?.trim()?:"",ref=binding.etRef.text?.toString()?.trim()?:"",notes=binding.etNotes.text?.toString()?.trim()?:"",photos=pendingPhotos.toList(),created=existing?.created?:now,createdTs=existing?.createdTs?:now); vm.saveTask(task); toast(if (editTaskId != null) "Updated!" else "Registered!"); finish() } }
-    private fun confirmDelete() { androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Delete Task").setMessage("Delete $editTaskId? Cannot be undone.").setPositiveButton("Delete") { _, _ -> editTaskId?.let { vm.deleteTask(it) }; toast("Deleted"); finish() }.setNegativeButton("Cancel",null).show() }
+    private fun addPhotoFromUri(uri: Uri) {
+        try {
+            val bmp = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+            val scaled = Bitmap.createScaledBitmap(bmp, minOf(bmp.width, 800), minOf(bmp.height, 800), true)
+            val baos = ByteArrayOutputStream()
+            scaled.compress(Bitmap.CompressFormat.JPEG, 75, baos)
+            val b64 = "data:image/jpeg;base64," + Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
+            pendingPhotos.add(b64); photoAdapter.notifyDataSetChanged()
+        } catch (e: Exception) { toast("Could not load photo: ${e.message}") }
+    }
+    private fun loadExistingTask() {
+        lifecycleScope.launch {
+            val task = AppDatabase.getInstance(this@TaskFormActivity).taskDao().getById(editTaskId!!) ?: return@launch
+            binding.etTitle.setText(task.title); binding.etDue.setText(task.due)
+            binding.etRef.setText(task.ref); binding.etNotes.setText(task.netes)
+            val cats = vm.settings.categories
+            binding.spinnerType.setSelection(cats.indexOf(task.type).coerceAtLeast(0))
+            binding.spinnerPriority.setSelection(listOf("Critical","High","Medium","Low").indexOf(task.priority).coerceAtLeast(0))
+            selectedZones = (task.zones.ifEmpty { listOf(task.zone) }).toMutableList(); updateZoneLabel()
+            pendingPhotos.clear(); pendingPhotos.addAll(task.photos); photoAdapter.notifyDataSetChanged()
+        }
+    }
+    private fun saveTask() {
+        val title = binding.etTitle.text?.toString()?.trim() ?: ""
+        if (title.isBlank()) { toast("Task title is required"); return }
+        val cats = vm.settings.categories
+        val type = cats.getOrElse(binding.spinnerType.selectedItemPosition) { "Other" }
+        val priority = listOf("Critical","High","Medium","Low").getOrElse(binding.spinnerPriority.selectedItemPosition) { "Medium" }
+        val id = editTaskId ?: vm.genId(); val now = System.currentTimeMillis(); val zones = selectedZones.toList()
+        lifecycleScope.launch {
+            val existing = if (editTaskId != null) AppDatabase.getInstance(this@TaskFormActivity).taskDao().getById(editTaskId!!) else null
+            val task = Task(id=id,title=title,type=type,zone=zones.firstOrNull()?:"",zones=zones,priority=priority,status=existing?.status?:"Open",due=binding.etDue.text?.toString()?.trim()?:"",ref=binding.etRef.text?.toString()?.trim()?:"",notes=binding.etNotes.text?.toString()?.trim()?:"",photos=pendingPhotos.toList(),created=existing?.created?:now,createdTs=existing?.createdTs?:now)
+            vm.saveTask(task); toast(if (editTaskId != null) "Task updated" else "Task registered!"); finish()
+        }
+    }
+    private fun confirmDelete() { androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Delete Task").setMessage("Delete $editTaskId?").setPositiveButton("Delete") { _, _ -> editTaskId?.let { vm.deleteTask(it) }; toast("Deleted"); finish() }.setNegativeButton("Cancel", null).show() }
     private fun toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
-class PhotoPreviewAdapter(private val photos: List<String>, private val onRemove: (Int) -> Unit) : RecyclerView.Adapter<PhotoPreviewAdapter.VH>() {
-    inner class VH(view: View) : RecyclerView.ViewHolder(view) { val img: ImageView = view.findViewById(R.id.ivPreview); val btnRemove: TextView = view.findViewById(R.id.btnRemovePhoto) }
-    override fun onCreateViewHolder(parent: ViewGroup, t: Int): VH = VH(oldf { LayoutInflater.from(parent.context).inflate(R.layout.item_photo_preview, parent, false) })
-    private fun oldf(b: () -> View): View = b()
-    override fun onBindViewHolder(h: VH, pos: Int) { Glide.with(h.img.context).load(photos[pos]).centerCrop().into(h.img); h.btnRemove.setOnClickListener { onRemove(pos) } }
+
+class PhotoPreviewAdapter(private val photos: List<String>, private val onRemove: (Int) -> Unit) : RecyclerView.Adapter<PhotoPreviewAdapter.VI>() {
+    inner class VH(view: View) : RecyclerView.ViewHolder(view) {
+        val img: ImageView = view.findViewById(R.id.ivPreview)
+        val btnRemove: TextView = view.findViewById(R.id.btnRemovePhoto)
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_photo_preview, parent, false)
+        return VH(v)
+    }
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        Glide.with(holder.img.context).load(photos[position]).centerCrop().into(holder.img)
+        holder.btnRemove.setOnClickListener { onRemove(position) }
+    }
     override fun getItemCount() = photos.size
 }
